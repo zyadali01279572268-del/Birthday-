@@ -1,0 +1,233 @@
+const loader = document.getElementById("loader");
+const heart = document.getElementById("bigHeart");
+const page = document.getElementById("mainPage");
+
+const music = document.getElementById("music");
+
+const messageBox = document.getElementById("message");
+const openBtn = document.getElementById("openBtn");
+
+const giftBtn = document.getElementById("giftBtn");
+const finalMessage = document.getElementById("finalMessage");
+
+const slide = document.getElementById("slideImage");
+
+const images = [
+"photo1.jpg",
+"photo2.jpg",
+"photo3.jpg"
+];
+
+let current = 0;
+
+setInterval(() => {
+
+current++;
+
+if(current >= images.length){
+
+current = 0;
+
+}
+
+slide.src = images[current];
+
+},3000);
+
+heart.onclick = ()=>{
+
+loader.style.display="none";
+
+page.style.display="block";
+
+music.play().catch(()=>{});
+
+createHearts();
+
+}
+
+function typeWriter(text){
+
+let i=0;
+
+messageBox.innerHTML="";
+
+const timer=setInterval(()=>{
+
+messageBox.innerHTML+=text.charAt(i);
+
+i++;
+
+if(i>=text.length){
+
+clearInterval(timer);
+
+fireworks();
+
+}
+
+},55);
+
+}
+
+openBtn.onclick=()=>{
+
+typeWriter(message);
+
+}
+
+giftBtn.onclick=()=>{
+
+finalMessage.style.display="block";
+
+confetti();
+
+}
+
+function createHearts(){
+
+setInterval(()=>{
+
+let h=document.createElement("div");
+
+h.className="heart";
+
+const list=["❤️","💖","💕","💗","🌹"];
+
+h.innerHTML=list[Math.floor(Math.random()*list.length)];
+
+h.style.left=Math.random()*100+"vw";
+
+h.style.fontSize=(20+Math.random()*25)+"px";
+
+document.body.appendChild(h);
+
+setTimeout(()=>{
+
+h.remove();
+
+},6000);
+
+},250);
+
+}
+
+function fireworks(){
+
+for(let i=0;i<120;i++){
+
+let spark=document.createElement("div");
+
+spark.style.position="fixed";
+
+spark.style.width="8px";
+
+spark.style.height="8px";
+
+spark.style.borderRadius="50%";
+
+spark.style.background=`hsl(${Math.random()*360},100%,60%)`;
+
+spark.style.left="50%";
+
+spark.style.top="45%";
+
+spark.style.zIndex="999";
+
+document.body.appendChild(spark);
+
+const x=(Math.random()-0.5)*900;
+
+const y=(Math.random()-0.5)*900;
+
+spark.animate([
+
+{
+
+transform:"translate(0,0)",
+
+opacity:1
+
+},
+
+{
+
+transform:`translate(${x}px,${y}px)`,
+
+opacity:0
+
+}
+
+],{
+
+duration:1800
+
+});
+
+setTimeout(()=>{
+
+spark.remove();
+
+},1800);
+
+}
+
+}
+
+function confetti(){
+
+for(let i=0;i<180;i++){
+
+let c=document.createElement("div");
+
+c.style.position="fixed";
+
+c.style.width="10px";
+
+c.style.height="10px";
+
+c.style.left=Math.random()*100+"vw";
+
+c.style.top="-20px";
+
+c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+
+c.style.transform=`rotate(${Math.random()*360}deg)`;
+
+document.body.appendChild(c);
+
+let y=window.innerHeight+50;
+
+c.animate([
+
+{
+
+transform:"translateY(0)",
+
+opacity:1
+
+},
+
+{
+
+transform:`translateY(${y}px)`,
+
+opacity:1
+
+}
+
+],{
+
+duration:4000
+
+});
+
+setTimeout(()=>{
+
+c.remove();
+
+},4000);
+
+}
+
+}
